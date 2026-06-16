@@ -366,7 +366,7 @@ const Hero = () => {
             }}>
               {/* ✅ img tag directly — not wrapped in span */}
               <img
-                src={pic1}
+                src={pic2}
                 alt="Jessica Wilson"
                 style={{
                   width: '100%',
