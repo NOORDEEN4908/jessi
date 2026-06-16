@@ -6,8 +6,8 @@ import {
   Award, User, ExternalLink, Menu, X, ChevronRight,
   Globe, BarChart, Users, Zap
 } from 'lucide-react'
-import pic1 from "../src/Asset/wh4.png"
-import pic2 from "../src/Asset/Capture.PNG"
+import pic1 from "./Asset/wh4.png"
+import pic2 from "./Asset/Capture.PNG"
 
 /* ─── TOKENS ─── */
 const C = {
