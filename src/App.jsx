@@ -342,7 +342,7 @@ const Hero = () => {
             }}>
               <User size={isMobile?32:48} color={C.accent} strokeWidth={1}/>
               <span style={{color:C.muted,fontSize:9,textAlign:'center',lineHeight:1.4,padding:'0 12px'}}>
-                <img src="../public/wh4.png" alt="" srcset="" />
+                <img src="../src/Asset/wh4.png" alt="" srcset="" />
               </span>
             </div>
           </div>
@@ -480,7 +480,7 @@ const About = () => {
             <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
               
               <p style={{color:C.muted,fontSize:13,textAlign:'center',padding:'0 24px',lineHeight:1.6}}>
-                <img src="../public/Capture.PNG" alt="" srcset="" /><br/>
+                <img src="../src/Asset/Capture.PNG" alt="" srcset="" /><br/>
                 <span style={{fontSize:11,opacity:0.6}}>Replace with an &lt;img&gt; tag</span>
               </p>
             </div>
