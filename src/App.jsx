@@ -283,180 +283,248 @@ const Nav = () => {
   )
 }
 
-/* ─── HERO ─── */
 const Hero = () => {
   const { isMobile, isTablet, w } = useBreakpoint()
   const [typed, setTyped] = useState('')
   const roles = ['Digital Marketing Specialist','SEO Strategist','Social Media Expert','Growth Marketer']
   const [roleIdx, setRoleIdx] = useState(0)
   const [deleting, setDeleting] = useState(false)
+
   useEffect(() => {
     const cur = roles[roleIdx]
-    if(!deleting && typed.length < cur.length){
-      const t = setTimeout(()=>setTyped(cur.slice(0,typed.length+1)),70); return()=>clearTimeout(t)
-    } else if(!deleting && typed.length===cur.length){
-      const t = setTimeout(()=>setDeleting(true),2200); return()=>clearTimeout(t)
-    } else if(deleting && typed.length>0){
-      const t = setTimeout(()=>setTyped(typed.slice(0,-1)),40); return()=>clearTimeout(t)
-    } else if(deleting && typed.length===0){
-      setDeleting(false); setRoleIdx((roleIdx+1)%roles.length)
+    if (!deleting && typed.length < cur.length) {
+      const t = setTimeout(() => setTyped(cur.slice(0, typed.length + 1)), 70)
+      return () => clearTimeout(t)
+    } else if (!deleting && typed.length === cur.length) {
+      const t = setTimeout(() => setDeleting(true), 2200)
+      return () => clearTimeout(t)
+    } else if (deleting && typed.length > 0) {
+      const t = setTimeout(() => setTyped(typed.slice(0, -1)), 40)
+      return () => clearTimeout(t)
+    } else if (deleting && typed.length === 0) {
+      setDeleting(false)
+      setRoleIdx((roleIdx + 1) % roles.length)
     }
-  },[typed,deleting,roleIdx])
+  }, [typed, deleting, roleIdx])
 
-  const px = isMobile ? '20px' : isTablet ? '40px' : '60px'
-  const ringSize = isMobile ? 220 : isTablet ? 300 : 400
-  const orbitR = isMobile ? 80 : isTablet ? 110 : 140
+  const ringSize = isMobile ? 260 : isTablet ? 300 : 400
+  const orbitR   = isMobile ? 95  : isTablet ? 110 : 140
 
   return (
     <section id="hero" style={{
-      minHeight:'100vh',display:'flex',alignItems:'center',
-      padding: isMobile ? '80px 20px 120px' : isTablet ? '100px 40px 80px' : '100px 60px 60px',
-      position:'relative',overflow:'hidden',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',   // ← stack on mobile
+      alignItems: isMobile ? 'center' : 'center',
+      justifyContent: isMobile ? 'flex-start' : 'space-between',
+      padding: isMobile
+        ? '100px 20px 60px'
+        : isTablet
+        ? '100px 40px 80px'
+        : '100px 60px 60px',
+      position: 'relative',
+      overflow: 'hidden',
+      gap: isMobile ? 0 : 40,
     }}>
-      {/* Portrait ring - right side desktop/tablet, behind content mobile */}
+
+      {/* ── Portrait ring ─────────────────────────────── */}
+      {/* On mobile: sits BELOW the heading block, centered, full opacity */}
       <div style={{
-        position: isMobile ? 'absolute' : 'absolute',
-        right: isMobile ? '50%' : isTablet ? '3%' : '6%',
-        top: isMobile ? '12%' : '50%',
-        transform: isMobile ? 'translateX(50%)' : 'translateY(-50%)',
-        width: ringSize, height: ringSize,
-        opacity: isMobile ? 0.18 : 1,
-        zIndex: isMobile ? 0 : 1,
-        flexShrink:0,
+        order: isMobile ? 2 : 0,          // push below text on mobile
+        flexShrink: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: ringSize,
+        height: ringSize,
+        margin: isMobile ? '32px auto 0' : 0,
+        position: isMobile ? 'relative' : 'absolute',
+        right: isMobile ? 'auto' : isTablet ? '3%' : '6%',
+        top: isMobile ? 'auto' : '50%',
+        transform: isMobile ? 'none' : 'translateY(-50%)',
+        opacity: 1,                        // always full opacity
+        zIndex: 1,
       }}>
         <div style={{
-          width:'100%',height:'100%',borderRadius:'50%',
-          border:'1px solid rgba(224,64,251,0.1)',
-          display:'flex',alignItems:'center',justifyContent:'center',position:'relative',
+          width: '100%', height: '100%', borderRadius: '50%',
+          border: '1px solid rgba(224,64,251,0.1)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          position: 'relative',
         }}>
           <div style={{
-            width:'80%',height:'80%',borderRadius:'50%',
-            border:'1px solid rgba(224,64,251,0.15)',
-            display:'flex',alignItems:'center',justifyContent:'center',
-            animation:'pulse-glow 4s ease-in-out infinite',
+            width: '80%', height: '80%', borderRadius: '50%',
+            border: '1px solid rgba(224,64,251,0.15)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            animation: 'pulse-glow 4s ease-in-out infinite',
           }}>
             <div style={{
-              width:'90%',height:'85%',borderRadius:'80%',
-              background:`radial-gradient(circle,rgba(224,64,251,0.12) 0%,transparent 70%)`,
-              border:`2px solid ${C.accent}`,
-              display:'flex',alignItems:'center',justifyContent:'center',
-              flexDirection:'column',gap:6,overflow:'hidden',
+              width: '90%', height: '85%', borderRadius: '80%',
+              background: `radial-gradient(circle,rgba(224,64,251,0.12) 0%,transparent 70%)`,
+              border: `2px solid ${C.accent}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexDirection: 'column', gap: 6, overflow: 'hidden',
             }}>
-              <User size={isMobile?32:48} color={C.accent} strokeWidth={1}/>
-              <span style={{color:C.muted,fontSize:9,textAlign:'center',lineHeight:1.4,padding:'0 12px'}}>
-                <img src={pic1} alt="" srcset="" />
-              </span>
+              {/* ✅ img tag directly — not wrapped in span */}
+              <img
+                src={pic2}
+                alt="Jessica Wilson"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '80%',
+                }}
+              />
             </div>
           </div>
           <div style={{
-            position:'absolute',width:10,height:10,borderRadius:'50%',
-            background:C.accent,boxShadow:`0 0 12px ${C.accent}`,
-            ['--r']:orbitR+'px',animation:'orbit 6s linear infinite',
+            position: 'absolute', width: 10, height: 10, borderRadius: '50%',
+            background: C.accent, boxShadow: `0 0 12px ${C.accent}`,
+            '--r': orbitR + 'px', animation: 'orbit 6s linear infinite',
           }}/>
           <div style={{
-            position:'absolute',width:7,height:7,borderRadius:'50%',
-            background:C.gold,boxShadow:`0 0 10px ${C.gold}`,
-            ['--r']:(orbitR*0.7)+'px',animation:'orbit 9s linear infinite reverse',
+            position: 'absolute', width: 7, height: 7, borderRadius: '50%',
+            background: C.gold, boxShadow: `0 0 10px ${C.gold}`,
+            '--r': (orbitR * 0.7) + 'px', animation: 'orbit 9s linear infinite reverse',
           }}/>
         </div>
       </div>
 
-      {/* Content */}
-      <div style={{maxWidth: isMobile ? '100%' : isTablet ? 520 : 680,position:'relative',zIndex:1}}>
+      {/* ── Text content ──────────────────────────────── */}
+      <div style={{
+        order: isMobile ? 1 : 0,
+        maxWidth: isMobile ? '100%' : isTablet ? 520 : 680,
+        position: 'relative',
+        zIndex: 1,
+        textAlign: isMobile ? 'center' : 'left',
+      }}>
         <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}}
-          style={{display:'inline-flex',alignItems:'center',gap:8,background:C.accentDim,
-            border:`1px solid rgba(224,64,251,0.3)`,padding:'6px 16px',borderRadius:100,marginBottom:isMobile?20:28}}>
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: C.accentDim,
+            border: `1px solid rgba(224,64,251,0.3)`,
+            padding: '6px 16px', borderRadius: 100,
+            marginBottom: isMobile ? 16 : 28,
+          }}>
           <span style={{width:6,height:6,borderRadius:'50%',background:'#4ADE80',boxShadow:'0 0 8px #4ADE80',display:'block'}}/>
           <span style={{color:C.accent,fontSize:11,fontWeight:700,letterSpacing:2,textTransform:'uppercase'}}>Available for hire</span>
         </motion.div>
 
         <motion.h1 initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{delay:0.35}}
-          style={{fontFamily:'Playfair Display',fontSize:`clamp(2.6rem,${isMobile?'12vw':'6vw'},6rem)`,
-            fontWeight:900,lineHeight:1.05,marginBottom:16}}>
+          style={{
+            fontFamily: 'Playfair Display',
+            fontSize: `clamp(2.6rem,${isMobile ? '13vw' : '6vw'},6rem)`,
+            fontWeight: 900, lineHeight: 1.05, marginBottom: 16,
+          }}>
           <span style={{color:C.white}}>Jessica</span><br/>
           <span className="gradient-text">Wilson</span>
         </motion.h1>
 
         <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.5}}
-          style={{fontSize:`clamp(0.95rem,${isMobile?'4vw':'2vw'},1.5rem)`,fontWeight:500,
-            marginBottom:20,minHeight:40,display:'flex',alignItems:'center'}}>
+          style={{
+            fontSize: `clamp(0.95rem,${isMobile ? '4.5vw' : '2vw'},1.5rem)`,
+            fontWeight: 500, marginBottom: 20, minHeight: 40,
+            display: 'flex', alignItems: 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+          }}>
           <span style={{color:C.accent}}>{typed}</span>
           <span style={{color:C.accent,animation:'blink 1s step-end infinite',marginLeft:2}}>|</span>
         </motion.div>
 
         <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.6}}
-          style={{color:C.muted,fontSize:isMobile?14:16,lineHeight:1.8,maxWidth:520,marginBottom:isMobile?28:40}}>
-          Based in Dubai, UAE — experienced in SEO, Social Media Marketing, Paid Advertising, and Lead Generation. Helping brands grow their digital presence with measurable results.
+          style={{
+            color: C.muted, fontSize: isMobile ? 14 : 16,
+            lineHeight: 1.8, maxWidth: 520,
+            marginBottom: isMobile ? 24 : 40,
+            margin: isMobile ? '0 auto 24px' : '0 0 40px',
+          }}>
+          Based in Dubai, UAE — experienced in SEO, Social Media Marketing,
+          Paid Advertising, and Lead Generation. Helping brands grow their
+          digital presence with measurable results.
         </motion.p>
 
         <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.75}}
-          style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:isMobile?32:48}}>
+          style={{
+            display: 'flex', gap: 12, flexWrap: 'wrap',
+            marginBottom: isMobile ? 28 : 48,
+            justifyContent: isMobile ? 'center' : 'flex-start',
+          }}>
           <a href="mailto:jessicawilson192004@gmail.com" style={{
-            display:'inline-flex',alignItems:'center',gap:8,
-            background:`linear-gradient(135deg,${C.accent},#FF6B9D)`,
-            color:C.white,padding:isMobile?'12px 22px':'14px 32px',borderRadius:100,
-            textDecoration:'none',fontWeight:700,fontSize:isMobile?13:14,letterSpacing:1,
-            boxShadow:`0 0 30px ${C.accentGlow}`,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: `linear-gradient(135deg,${C.accent},#FF6B9D)`,
+            color: C.white,
+            padding: isMobile ? '12px 22px' : '14px 32px',
+            borderRadius: 100, textDecoration: 'none',
+            fontWeight: 700, fontSize: isMobile ? 13 : 14, letterSpacing: 1,
+            boxShadow: `0 0 30px ${C.accentGlow}`,
           }}>
             <Mail size={15}/> Get In Touch
           </a>
           <a href="#projects" style={{
-            display:'inline-flex',alignItems:'center',gap:8,
-            border:`1.5px solid rgba(224,64,251,0.4)`,
-            color:C.text,padding:isMobile?'12px 22px':'14px 32px',borderRadius:100,
-            textDecoration:'none',fontWeight:600,fontSize:isMobile?13:14,letterSpacing:1,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            border: `1.5px solid rgba(224,64,251,0.4)`,
+            color: C.text,
+            padding: isMobile ? '12px 22px' : '14px 32px',
+            borderRadius: 100, textDecoration: 'none',
+            fontWeight: 600, fontSize: isMobile ? 13 : 14, letterSpacing: 1,
           }}>
             View Projects <ArrowUpRight size={15}/>
           </a>
         </motion.div>
 
-        <motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 1 }}
-  style={{ display: "flex", gap: isMobile ? 20 : 36, flexWrap: "wrap" }}
->
-  {[
-    { n: 2, suffix: "+", l: "Years Exp." },
-    { n: 35, suffix: "+", l: "Certifications" },
-    { n: 15, suffix: "+", l: "Clients" },
-  ].map(({ n, suffix, l }) => (
-    <div key={l}>
-      <div
-        style={{
-          fontFamily: "Playfair Display",
-          fontSize: isMobile ? 22 : 28,
-          fontWeight: 900,
-          color: C.white,
-        }}
-      >
-        <CountUp target={n} duration={2500} delay={1000} />
-        {suffix}
-      </div>
-      <div
-        style={{
-          color: C.muted,
-          fontSize: 11,
-          textTransform: "uppercase",
-          letterSpacing: 1.5,
-        }}
-      >
-        {l}
-      </div>
-    </div>
-  ))}
-</motion.div>
-      </div>
-
-      {/* Bottom contact strip - hide on mobile */}
-      {!isMobile && (
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.1}}
-          style={{position:'absolute',bottom:28,left:px,right:px,display:'flex',gap:24,flexWrap:'wrap'}}>
-          {[{icon:<MapPin size={13}/>,text:'Dubai, UAE'},{icon:<Mail size={13}/>,text:'jessicawilson192004@gmail.com'},{icon:<Phone size={13}/>,text:'+971 589548998'}].map(({icon,text})=>(
-            <span key={text} style={{display:'flex',alignItems:'center',gap:6,color:C.muted,fontSize:13}}>{icon}{text}</span>
+        <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1}}
+          style={{
+            display: 'flex', gap: isMobile ? 24 : 36, flexWrap: 'wrap',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+          }}>
+          {[
+            { n: 2,  suffix: '+', l: 'Years Exp.'     },
+            { n: 35, suffix: '+', l: 'Certifications' },
+            { n: 15, suffix: '+', l: 'Clients'        },
+          ].map(({ n, suffix, l }) => (
+            <div key={l} style={{ textAlign: isMobile ? 'center' : 'left' }}>
+              <div style={{
+                fontFamily: 'Playfair Display',
+                fontSize: isMobile ? 22 : 28,
+                fontWeight: 900, color: C.white,
+              }}>
+                <CountUp target={n} duration={2500} delay={1000} />{suffix}
+              </div>
+              <div style={{
+                color: C.muted, fontSize: 11,
+                textTransform: 'uppercase', letterSpacing: 1.5,
+              }}>{l}</div>
+            </div>
           ))}
         </motion.div>
-      )}
+      </div>
+
+      {/* ── Bottom contact strip (all screen sizes) ───── */}
+      <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.1}}
+        style={{
+          position: 'absolute',
+          bottom: isMobile ? 16 : 28,
+          left: isMobile ? 20 : 60,
+          right: isMobile ? 20 : 60,
+          display: 'flex',
+          gap: isMobile ? 12 : 24,
+          flexWrap: 'wrap',
+          justifyContent: isMobile ? 'center' : 'flex-start',
+        }}>
+        {[
+          { icon: <MapPin size={13}/>, text: 'Dubai, UAE' },
+          { icon: <Mail size={13}/>,   text: 'jessicawilson192004@gmail.com' },
+          { icon: <Phone size={13}/>,  text: '+971 589548998' },
+        ].map(({ icon, text }) => (
+          <span key={text} style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            color: C.muted,
+            fontSize: isMobile ? 11 : 13,
+          }}>
+            {icon}{text}
+          </span>
+        ))}
+      </motion.div>
     </section>
   )
 }
